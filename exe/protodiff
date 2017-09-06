@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+hash = {}
+errors = []
+ARGV.each do |filename|
+  File.open(filename).each do |line|
+    segments = line.split("\t")
+    k = segments[0..1]
+    v = segments[2..-1]
+    hash[k] ||= v
+    if hash[k] != v
+      errors << k
+    end
+  end
+end
+
+if errors.size > 0
+  errors.each do |error|
+    STDERR.puts "Cannot redefine #{error.join(".")} incompatibly."
+  end
+  exit 1
+end

@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "protobuf"
+require "protobuf/message"
+require "protobuf/descriptors"
+require "protobuf/descriptors/google/protobuf/compiler/plugin.pb"
+
+Google::Protobuf::FieldOptions.optional :int32, :key, 50050
+
+request = Google::Protobuf::Compiler::CodeGeneratorRequest.decode(STDIN.read)
+
+buffer = []
+request.proto_file.each do |file|
+  file.message_type.each do |message|
+    message.field.each do |field|
+      buffer << "#{message.name}\t#{field.number}\t#{field.name}\t#{field.type}\t#{field.label}\t#{field.type_name}" 
+      buffer << "#{message.name}\t#{field.name}\t#{field.number}\t#{field.type}\t#{field.label}\t#{field.type_name}"
+    end
+  end
+end
+file = Google::Protobuf::Compiler::CodeGeneratorResponse::File.new
+file.name = "dump.out"
+file.content = buffer.join("\n")
+response = Google::Protobuf::Compiler::CodeGeneratorResponse.new
+response.file << file
+print response.encode
