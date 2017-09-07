@@ -13,7 +13,7 @@ buffer = []
 request.proto_file.each do |file|
   file.message_type.each do |message|
     message.field.each do |field|
-      buffer << "#{file.package}.#{message.name}\t#{message.name}\t#{field.number}\t#{field.name}\t#{field.type}\t#{field.label}\t#{field.type_name}" 
+      buffer << "#{file.package}.#{message.name}\t#{field.number}\t#{field.name}\t#{field.type}\t#{field.label}\t#{field.type_name}" 
       buffer << "#{file.package}.#{message.name}\t#{field.name}\t#{field.number}\t#{field.type}\t#{field.label}\t#{field.type_name}"
     end
   end
