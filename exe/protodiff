@@ -4,7 +4,7 @@ hash = {}
 errors = []
 ARGV.each do |filename|
   File.open(filename).each do |line|
-    segments = line.split("\t")
+    segments = line.strip.split("\t")
     k = segments[0..1]
     v = segments[2..-1]
     hash[k] ||= v
